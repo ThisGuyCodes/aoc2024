@@ -1,6 +1,7 @@
 import day1
 import day2
 import day3
+import day4
 import gleam/http/request
 import gleam/httpc
 import gleam/int
@@ -11,6 +12,7 @@ pub fn main() {
   do_day(2024, 1, day1.parse, day1.solve1, day1.solve2)
   do_day(2024, 2, day2.parse, day2.solve1, day2.solve2)
   do_day(2024, 3, day3.parse, day3.solve1, day3.solve2)
+  do_day(2024, 4, day4.parse, day4.solve1, day4.solve2)
 }
 
 fn do_day(year, day, parse, solve1, solve2) {

@@ -100,10 +100,18 @@ pub fn solve1(input: Grid) {
   |> list.filter(fn(it) { it.letter == X })
   |> list.map(fn(it) { it.pos |> cardinals })
   |> list.flatten
-  |> get_next(input.grid, M)
-  |> get_next(input.grid, A)
-  |> get_next(input.grid, S)
+  |> solve_next(input, next_letter(X))
   |> list.length
+}
+
+fn solve_next(now, grid: Grid, letter: Option(Letter)) {
+  case letter {
+    Some(letter) -> {
+      get_next(now, grid.grid, letter)
+      |> solve_next(grid, next_letter(letter))
+    }
+    None -> now
+  }
 }
 
 fn get_next(input: List(Progress), grid, letter) {

@@ -1,10 +1,8 @@
 import gleam/dict
 import gleam/int
-import gleam/io
 import gleam/list
-import gleam/option.{type Option, None, Some}
-import gleam/order.{type Order, Eq, Gt, Lt}
-import gleam/result
+import gleam/option.{None}
+import gleam/order.{Eq, Gt, Lt}
 import gleam/string
 
 type Rule {

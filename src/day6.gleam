@@ -1,4 +1,5 @@
 import gleam/dict.{type Dict}
+import gleam/function
 import gleam/io
 import gleam/list
 import gleam/string
@@ -42,16 +43,21 @@ pub fn parse(input) -> Input {
   |> Input
 }
 
-pub fn solve1(input: Input) -> Int {
+fn get_guard_loc(map: Dict(#(Int, Int), Tile)) {
   let assert Ok(guard_loc) =
-    dict.to_list(input.map)
+    dict.to_list(map)
     |> list.find(fn(it) {
       case it.1 {
         Guard(_) -> True
         _ -> False
       }
     })
-  let assert Ok(result) = walk(input.map, guard_loc.0, N)
+  guard_loc.0
+}
+
+pub fn solve1(input: Input) -> Int {
+  let guard_loc = get_guard_loc(input.map)
+  let assert Ok(result) = walk(input.map, guard_loc, N)
   result
   |> dict.to_list
   |> list.filter(fn(it) {
@@ -104,6 +110,30 @@ fn turn_right(dir: Direction) {
   }
 }
 
-pub fn solve2(input: Input) -> Int {
-  0
+fn has_loop(map: Dict(#(Int, Int), Tile), guard_loc: #(Int, Int)) {
+  case walk(map, guard_loc, N) {
+    Error("loop") -> True
+    Error(_) -> panic as "Unexpected error"
+    Ok(_) -> False
+  }
+}
+
+pub fn solve2(input: Input) {
+  let guard_loc = get_guard_loc(input.map)
+  let assert Ok(map) = walk(input.map, get_guard_loc(input.map), N)
+  map
+  |> dict.to_list
+  |> list.filter(fn(it) {
+    case it.1 {
+      Guard(_) -> True
+      _ -> False
+    }
+  })
+  |> list.filter(fn(it) { it.0 != guard_loc })
+  |> list.map(fn(it) { it.0 })
+  |> list.map(fn(it) {
+    dict.insert(input.map, it, Obstacle)
+    |> has_loop(guard_loc)
+  })
+  |> list.count(function.identity)
 }

@@ -65,10 +65,9 @@ fn is_ordered(update: Update, rules: List(Rule), seen) {
 }
 
 pub fn solve1(input: Input) {
-  let ordered_updates =
-    input.updates
-    |> list.filter(is_ordered(_, input.rules, dict.new()))
-    |> sum_middle
+  input.updates
+  |> list.filter(is_ordered(_, input.rules, dict.new()))
+  |> sum_middle
 }
 
 fn sum_middle(updates: List(Update)) {

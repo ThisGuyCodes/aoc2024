@@ -11,7 +11,7 @@ pub opaque type Input {
   Input(segments: List(Segment))
 }
 
-type Segment {
+pub type Segment {
   FreeSeg(size: Int)
   FileSeg(size: Int, id: Int)
 }
@@ -87,7 +87,7 @@ fn checksum(blocks) {
   acc + id * loc
 }
 
-fn print_segments(segments: List(Segment)) {
+pub fn print_segments(segments: List(Segment)) {
   {
     use segment <- list.map(segments)
     case segment {
